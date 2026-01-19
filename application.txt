@@ -26,3 +26,6 @@ A breakdown in the main tasks with associated effort is appreciated. Make rates 
 The budget will be used to construct a testbed.
 The testbed will consist of 22 raspberry pi 5 16gb, 25 256gb microsd cards, A ubiquity USW-Pro-Max-24-PoE (400W)
 and 25 raspberry pi 5 PoE cards
+
+Which model did you use? What did you use it for? Please submit the dates of the prompts, the prompts themselves and the unedited output in this text field.
+ChatGPT 5.2 with the following prompt: "Proof read this:" was used in order to catch spelling mistakes and difficult to read sentences
