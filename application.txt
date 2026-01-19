@@ -1,0 +1,28 @@
+Proposal Name:
+DNS-Based Traffic Steering for IPv6 Enabled Edge Microservices
+
+Abstract: Can you explain the whole project and its expected outcome(s):
+This project explores DNS-based traffic steering between IPv6-enabled clients and microservices. This will function as a lightweight open-source alternative
+to layer 7 ingress proxies. The work removes traffic steering logic from the application layer by performing metrics-based record management on a dedicated DNS server, eliminating the need for Layer 7 ingress proxies.
+In this approach, the DNS server will decide what client is presented what pods based on current cluster metrics. While traffic delivery is handled by conventional layer 3 network infrastructure instead of application-layer proxies.
+
+This project includes building a small testbed in the form of a 22 node raspberry pi cluster. The cluster will function as an analog for modern server infrastructure, allowing us to evaluate our approach under realistic conditions. Experimental results will compare 
+our DNS-based solution to conventional ingress solutions in terms of latency, scalability, resource usage and failover behaviour.
+
+As the internet is transitioning over to IPv6 it is important to leave the inherent restrictions imposed upon us in the past, by exploring
+new and more efficient traffic steering paradigms. The work we are doing is made possible due to the removal of Network Address Translation as a result of the larger address space.
+
+Our expected outcomes are as following:
+- An open-source DNS based Kubernetes ingress controller
+- One or two Open access articles presenting our results, published and peer reviewed.
+
+Have you been involved with projects or organisations relevant to this project before? And if so, can you tell us a bit about your contributions?
+As an independent consultant I have been developing internal control planes for the University of Tromsø in regards to this I have several networking related contributions in Network Administration Visualized. I have also partnered with Lightside Instruments developing open-source software for NETCONF based sensor management.
+
+Explain what the requested budget will be used for?
+Does the project have other funding sources, both past and present?
+A breakdown in the main tasks with associated effort is appreciated. Make rates explicit.
+(If you want, you can in addition attach a full budget at the bottom of the form):
+The budget will be used to construct a testbed.
+The testbed will consist of 22 raspberry pi 5 16gb, 25 256gb microsd cards, A ubiquity USW-Pro-Max-24-PoE (400W)
+and 25 raspberry pi 5 PoE cards
