@@ -6,18 +6,33 @@ This project explores DNS-based traffic steering between IPv6-enabled clients an
 to layer 7 ingress proxies. The work removes traffic steering logic from the application layer by performing metrics-based record management on a dedicated DNS server, eliminating the need for Layer 7 ingress proxies.
 In this approach, the DNS server will decide what client is presented what pods based on current cluster metrics. While traffic delivery is handled by conventional layer 3 network infrastructure instead of application-layer proxies.
 
+In a normal layer 7 proxy the first link in the Unified Resource Link is usually used to direct the request to a pod of the correct service. What we are proposing is that this should be done trough DNS subdomains using the DNS protocol thus eliminating the need
+for layer 7 proxies in traffic steering.
+
+Metrics are handled by Prometheus. The DNS server manages pods records by querying prometheus with an arbitrary PromQL query. Based on this simple mechanism the DNS server decides what records should be in the record pool and what records should be removed.
+The DNS server will can also be configured to calculate a dynamic TTL based on arbitrary metrics. All record management is done periodically and instead of at record retrieval to keep the server quick and efficient.
+
+A commonly brought up 'Issue' is the issue of DNS caching and recursive resolvers not respecting the Time To Live of records from authorative servers. This issue is tackled trough the proper delegation of DNS records.
+By placing our DNS servers in a tree structure where only the bottom layer of servers provide AAAA records while the rest of the servers provide NS records we can make sure records stay fresh and TTL is respected.
+However, while proper delegation does eleviate the issue of non compliance a bit especially when it comes to caching duration it will not stop a non-compliant recursive resolver from resolving all NS records until it reaches AAAA records.
+
 This project includes building a small testbed in the form of a 22 node raspberry pi cluster. The cluster will function as an analog for modern server infrastructure, allowing us to evaluate our approach under realistic conditions. Experimental results will compare 
 our DNS-based solution to conventional ingress solutions in terms of latency, scalability, resource usage and failover behaviour.
+The cluster will be split into three parts 10 client emulators, 10 hosting microservices and DNS servers and 2 that are used for test steering and monitoring. This will allows us to not only verify the performance of our ingress controller but collect
+comparable data from other ingress controllers allowing us to validate the viability of this approach. It will also allow us to explore failover mechanisms after both pod and physical node crashes.
 
 As the internet is transitioning over to IPv6 it is important to leave the inherent restrictions imposed upon us in the past, by exploring
 new and more efficient traffic steering paradigms. The work we are doing is made possible due to the removal of Network Address Translation as a result of the larger address space.
+With RFCs like Media over Quic and other distributed solutions built for the next generation of internet services we are in dire need of traffic steering mechanism at the edge that are no introducing choke points in
+systems that are perfectly distributable. Media over Quic introduces a concept of replica fanout but, with current content steering practices at the application layer the benefits of Media over Quic would quickly be overshadowed by the
+limitations of our layer 7 proxies.
 
 Our expected outcomes are as following:
 - An open-source DNS based Kubernetes ingress controller
 - One or two Open access articles presenting our results, published and peer reviewed.
 
 Have you been involved with projects or organisations relevant to this project before? And if so, can you tell us a bit about your contributions?
-As an independent consultant I have been developing internal control planes for the University of Tromsø in regards to this I have several networking related contributions in Network Administration Visualized. I have also partnered with Lightside Instruments developing open-source software for NETCONF based sensor management.
+As an independent consultant I have been developing internal control planes for the University of Tromsø in this regard I have several networking related contributions in Network Administration Visualized. I have also partnered with Lightside Instruments developing open-source software for NETCONF based sensor management.
 
 Explain what the requested budget will be used for?
 Does the project have other funding sources, both past and present?
