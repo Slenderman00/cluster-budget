@@ -3,11 +3,10 @@ DNS-Based Traffic Steering for IPv6 Enabled Edge Microservices
 
 Abstract: Can you explain the whole project and its expected outcome(s):
 This project explores DNS-based traffic steering between IPv6-enabled clients and microservices. This will function as a lightweight open-source alternative
-to layer 7 ingress proxies. The work removes traffic steering logic from the application layer by performing metrics-based record management on a dedicated DNS server, eliminating the need for Layer 7 ingress proxies while keeping the steering entirely transparent to the client application.
+to layer 7 ingress proxies. The work removes traffic steering logic from the application layer by performing metrics-based record management on a dedicated DNS server, eliminating the need for Layer 7 ingress proxies while keeping the L7 and L3 steering entirely transparent to the client application.
 In this approach, the DNS server will decide what client is presented what pods based on current cluster metrics. While traffic delivery is handled by conventional layer 3 network infrastructure instead of application-layer proxies.
 
-In a normal layer 7 proxy the first link in the Unified Resource Link is usually used to direct the request to a pod of the correct service. What we are proposing is that this should be done trough DNS subdomains using the DNS protocol thus eliminating the need
-for layer 7 proxies in traffic steering.
+In a normal layer 7 proxy the first link in the Uniform Resource Locator is usually used to direct the request to a pod of the correct service. What we are proposing is that this should be done trough DNS subdomains using the DNS protocol thus eliminating the need for layer 7 proxies in traffic steering.
 
 Metrics are handled by Prometheus. The DNS server manages pods records by querying prometheus with an arbitrary PromQL query. Based on this simple mechanism the DNS server decides what records should be in the record pool and what records should be removed.
 The DNS server will can also be configured to calculate a dynamic TTL based on arbitrary metrics. All record management is done periodically and instead of at record retrieval to keep the server quick and efficient.
@@ -22,10 +21,9 @@ The cluster will be split into three parts 10 client emulators, 10 hosting micro
 comparable data from other ingress controllers allowing us to validate the viability of this approach. It will also allow us to explore failover mechanisms after both pod and physical node crashes.
 
 As the internet is transitioning over to IPv6 it is important to leave the inherent restrictions imposed upon us in the past, by exploring
-new and more efficient traffic steering paradigms. The work we are doing is made possible due to the removal of Network Address Translation as a result of the larger address space.
-With RFCs like Media over Quic and other distributed solutions built for the next generation of internet services we are in dire need of traffic steering mechanism at the edge that are no introducing choke points in
-systems that are perfectly distributable. Media over Quic introduces a concept of replica fanout but, with current content steering practices at the application layer the benefits of Media over Quic would quickly be overshadowed by the
-limitations of our layer 7 proxies.
+new and more efficient traffic steering paradigms. The work we are doing is made possible due to the removal of Network Address Translation as a result of the larger IPv6 address space.
+With RFCs like Media over Quic and other distributed solutions built for the next generation of internet services we are in dire need of traffic steering mechanism at the edge that are not introducing choke points in
+systems that are perfectly distributable. Media over Quic introduces a concept of replica fanout but, with current content steering practices at the application layer the benefits of Media over Quic would quickly be overshadowed by the limitations and centralizing nature of our layer 7 proxies.
 
 Our expected outcomes are as following:
 - An open-source DNS based Kubernetes ingress controller
