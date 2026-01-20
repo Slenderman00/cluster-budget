@@ -3,7 +3,7 @@ DNS-Based Traffic Steering for IPv6 Enabled Edge Microservices
 
 Abstract: Can you explain the whole project and its expected outcome(s):
 This project explores DNS-based traffic steering between IPv6-enabled clients and microservices. This will function as a lightweight open-source alternative
-to layer 7 ingress proxies. The work removes traffic steering logic from the application layer by performing metrics-based record management on a dedicated DNS server, eliminating the need for Layer 7 ingress proxies.
+to layer 7 ingress proxies. The work removes traffic steering logic from the application layer by performing metrics-based record management on a dedicated DNS server, eliminating the need for Layer 7 ingress proxies while keeping the steering entirely transparent to the client application.
 In this approach, the DNS server will decide what client is presented what pods based on current cluster metrics. While traffic delivery is handled by conventional layer 3 network infrastructure instead of application-layer proxies.
 
 In a normal layer 7 proxy the first link in the Unified Resource Link is usually used to direct the request to a pod of the correct service. What we are proposing is that this should be done trough DNS subdomains using the DNS protocol thus eliminating the need
