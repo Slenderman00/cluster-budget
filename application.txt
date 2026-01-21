@@ -42,3 +42,40 @@ and 25 raspberry pi 5 PoE cards
 
 Which model did you use? What did you use it for? Please submit the dates of the prompts, the prompts themselves and the unedited output in this text field.
 ChatGPT 5.2 with the following prompt: "Proof read this:" was used in order to catch spelling mistakes and difficult to read sentences
+
+new abstract:
+This project explores DNS-based traffic steering between IPv6-enabled clients and microservices. The project will function as a lightweight open-source alternative to L7 ingress proxies. The work removes traffic steering logic from the application layer by performing metrics-based record management on a dedicated DNS server. In this approach, the DNS server will decide which client is presented with which pods based on current cluster metrics, while traffic delivery is handled by conventional L3 network infrastructure instead of application-layer proxies. In a normal L7 proxy, the first link in the URL is usually used to direct the request to a pod of the correct service. What we are proposing is that this should be done through DNS subdomains using the DNS protocol, thus eliminating the need for L7 proxies in traffic steering. DNS-based traffic steering will allow for a larger traffic fanout for distributed systems without introducing chokepoints like those caused by L7 proxies.
+
+Therefore, we are building a small testbed consisting of 22 Raspberry Pis, as this is a realistic analog to modern server infrastructure. The cluster will be split into groups of two, 10 client emulators and 10 hosting the Kubernetes cluster.
+
+Our expected outcomes are as follows:
+- An open-source DNS-based Kubernetes ingress controller
+- One or two open-access articles presenting our results, published and peer-reviewed
+
+new budget:
+All costs are related to the Raspberry Pi cluster testbed.
+there are no other funding sources for this project.
+
+The budget will be used to acquire the following:
+- 22 Raspberry Pi 5 (16 GB)
+- 25 × 256 GB microSD cards
+- 1 Ubiquiti USW-Pro-Max-24-PoE (400 W)
+- 25 Raspberry Pi PoE shields
+A cleaner breakdown of the budget has been appended to the application.
+
+Compare your own project to historical efforts:
+None of the underlying technologies used in this project are new. DNS has long supported multi-record resolution, and the dynamic management of resource records based on external metrics has been explored in prior work.
+
+What differentiates this project from its predecessors is not the invention of new mechanisms but the use of DNS as the primary steering mechanism at the ingress level. Existing DNS-based steering approaches are typically used in a complementary role alongside L7 proxies, for example by large CDNs which use DNS to reduce latency and lower load on their ingress proxies by spreading the work over multiple server locations. 
+
+This project sees DNS-based steering as a direct alternative to L7 ingress proxies, with record pools actively managed based on pod metrics. 
+
+What are significant technical challenges you expect to solve during the project, if any?
+The main issues for this iteration of the project will be to create or explore algorithms for the efficient selection of resource records across the record pool. Looking at different ways of specifying metric thresholds as criteria for a pod being in the record pool, for example average or absolute thresholds. We aim to collect data on existing Kubernetes ingress controllers to prove the viability of our approach.
+
+We will also look at how commonly mentioned issues with non compliant recursive resolvers not respecting DNS caching can be solved through delegation of DNS records between multiple servers through the use of NS records.
+
+Describe the ecosystem of the project, and how you will engage with relevant actors and promote the outcomes?
+The primary target for this project consists of Kubernetes users, infrastructure engineers, and developers working on IPv6-enabled distributed systems. Engagement will focus on releasing our DNS-based ingress controller as open-source software, accompanied by quantitative evaluation data comparing our solution with existing approaches. We will also reach out to developers working on related open-source standards and systems, such as implementations of Media over QUIC, to explore potential collaboration.
+
+
